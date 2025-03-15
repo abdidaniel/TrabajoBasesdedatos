@@ -10,7 +10,12 @@ usuario_dao = UsuarioDAO()
 # else:
 #     print("No se pudo actualizar el usuario.")
 
+imprimir_usuario = usuario_dao.leer_usuario(ID_usuario = 12)
 
+if imprimir_usuario:
+    print(f"ID: {imprimir_usuario.ID_usuario}, Nombre: {imprimir_usuario.nombre}, Apellido: {imprimir_usuario.apellido}, Correo: {imprimir_usuario.correo}, Sexo: {imprimir_usuario.sexo}")
+else:
+    print("No se encontró el usuario.")
 # nuevo_usuario = UsuarioVO(
 #     nombre="Manuel",
 #     apellido="Gomez",
@@ -29,3 +34,5 @@ usuario_dao = UsuarioDAO()
 #     print("El usuario ha sido eliminado correctamente.")
 # else:
 #     print("No se pudo eliminar el usuario.")
+
+

@@ -1,5 +1,5 @@
 import sqlite3
-from modelo.VO import UsuarioVO
+from modelo.VO.UsuarioVO import UsuarioVO
 from db.conectar import crear_conexion
 
 class UsuarioDAO:
@@ -63,5 +63,27 @@ class UsuarioDAO:
             return False
         finally:
             cursor.close()
+    #Imprimir usuario
+    def leer_usuario(self, ID_usuario: int) -> UsuarioVO:
+        """Obtiene un usuario de la base de datos por su ID."""
+        sql = "SELECT ID_usuario, nombre, apellido, correo, sexo FROM Usuario WHERE ID_usuario = ?"
+        try:
+            cursor = self.conexion.cursor()
+            cursor.execute(sql, (ID_usuario,))
+            row = cursor.fetchone()
+
+            if row:
+                usuario = UsuarioVO(nombre=row[1], apellido=row[2], correo=row[3], sexo=row[4])
+                usuario.ID_usuario = row[0]
+                return usuario
+            else:
+                print(f"No se encontró el usuario con ID {ID_usuario}.")
+                return None
+        except sqlite3.Error as e:
+            print(f"Error al leer usuario: {e}")
+            return None
+        finally:
+            cursor.close()
+
 
 
