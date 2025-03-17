@@ -158,12 +158,15 @@ class ControladorGUI:
                 self.ventana_main.w3['tbl_us'].setItem(
                     index, 2, QTableWidgetItem(destino[4]))
 
+      
         self.ventana_main.w1['b_vr_usuarios'].clicked.connect(
             handler_ver_tabla_usuario)
         self.ventana_main.w1['b_vr_vehiculos'].clicked.connect(
             handler_ver_tabla_vehiculo)
         self.ventana_main.w1['b_vr_ubicaciones'].clicked.connect(
             handler_ver_tabla_ubicacion)
+        self.ventana_main.w1['b_vr_destino'].clicked.connect(
+            handler_ver_tabla_destino)
 
         self.ventana_main.w1['b_bsc_usuario'].clicked.connect(
             handler_ventana_buscar_usuario)
@@ -171,3 +174,4 @@ class ControladorGUI:
             handler_ventana_obtener_vehiculo)
         self.ventana_main.w2['b_ob_tipovehi'].clicked.connect(
             handler_ventana_obtener_tipo_vehiculo)
+
