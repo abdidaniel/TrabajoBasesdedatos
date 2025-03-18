@@ -81,6 +81,7 @@ def destinos_completos() -> list:
 def destino_mas_visitado() -> list:
 
     with cbd.crear_conexion() as conector:
+
         sql = f"""SELECT di.ID_direccion, di.nombre AS destino, COUNT(*) AS cantidad_visitas
 FROM Destino d
 JOIN Direccion di ON d.ID_direccion = di.ID_direccion
@@ -111,7 +112,6 @@ LEFT JOIN Destino d ON c.ID_destino = d.ID_DEST;"""
 
 
 def configuracion_ID(id: int) -> list:
-
     with cbd.crear_conexion() as conector:
         sql = f"""SELECT c.*, u.nombre, u.apellido, v.tipo_vehiculo, dir.nombre AS destino
 FROM Configuracion c
@@ -125,4 +125,3 @@ WHERE c.ID_usuario = {id};"""
     registros = cursor.fetchall()
 
     return registros
-

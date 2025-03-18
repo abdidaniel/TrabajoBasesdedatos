@@ -33,7 +33,6 @@ class VentanaMain (QWidget):
             "Ver Configuraciones de usuarios")
         self.w1['b_ob_configuracion'] = QPushButton(
             "Ver configuraciones de un usuario")
-
         self.w2['b_vr_destino'] = QPushButton("Ver Destinos")
         self.w2['b_vr_vehiculos'] = QPushButton("Ver Vehiculos")
         self.w2['b_bsc_vehiculo'] = QPushButton("Buscar vehiculo")
@@ -51,7 +50,6 @@ class VentanaMain (QWidget):
         
         self.w3['lbl_de'] = QLabel('Tabla Destinos')
         self.w3['tbl_de'] = QTableWidget()
-        
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
         self.cajamain.setSpacing(0)
@@ -74,7 +72,6 @@ class VentanaMain (QWidget):
         self.layout_main = QVBoxLayout()
         for key_w, w in self.w1.items():
             self.cajai.addWidget(w)
-
         self.cajaa = QVBoxLayout()
         self.cajaa.setContentsMargins(0, 0, 0, 0)
         self.cajaa.setSpacing(0)
@@ -203,6 +200,7 @@ class VentanaObtenerVehiculo:
         self.cajai.setSpacing(0)
         self.cajai.setAlignment(Qt.Qt.AlignLeft)
 
+
         self.layout_main = QVBoxLayout()
         for key_w, w in self.w1.items():
             self.cajai.addWidget(w)
@@ -213,14 +211,15 @@ class VentanaObtenerVehiculo:
         self.cajaa.setAlignment(Qt.Qt.AlignBottom)
 
         self.layout_main = QVBoxLayout()
-        for key_w, w in self.w3.items():
-            self.cajaa.addWidget(w)
+        for key_w, w in self.w1.items():
+            self.cajai.addWidget(w)
 
         self.cajamain.addLayout(self.cajai)
         self.cajamain.addLayout(self.cajad)
         self.layout_main.addLayout(self.cajamain)
         self.layout_main.addLayout(self.cajaa)
         self.setLayout(self.layout_main)
+        self.w2['btn_buscar'].clicked.connect(self.accept)
 
 
 # Obtener Tipo de vehiculo por el combustible xd
@@ -240,6 +239,7 @@ class VentanaObtenerTipoVehiculo:
         self.w2['radio_energia'] = QRadioButton("Energia", self)
         self.w2['radio_gas'] = QRadioButton("Gas", self)
         self.w2['radio_acpm'] = QRadioButton("ACPM", self)
+
 
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
@@ -263,7 +263,6 @@ class VentanaObtenerTipoVehiculo:
         self.layout_main = QVBoxLayout()
         for key_w, w in self.w1.items():
             self.cajai.addWidget(w)
-
         self.cajamain.addLayout(self.cajai)
         self.cajamain.addLayout(self.cajad)
         self.layout_main.addLayout(self.cajamain)
