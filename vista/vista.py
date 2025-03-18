@@ -10,7 +10,6 @@ from PyQt5.QtWidgets import (QPushButton,
                              QSpinBox,
                              QRadioButton,
                              QHBoxLayout,
-
                              )
 from PyQt5 import QtCore, Qt
 
@@ -34,16 +33,23 @@ class VentanaMain (QWidget):
             "Ver Configuraciones de usuarios")
         self.w1['b_ob_configuracion'] = QPushButton(
             "Ver configuraciones de un usuario")
-
         self.w2['b_vr_destino'] = QPushButton("Ver Destinos")
         self.w2['b_vr_vehiculos'] = QPushButton("Ver Vehiculos")
-        self.w2['b_buscar_vehiculo'] = QPushButton("Buscar vehiculo")
+        self.w2['b_bsc_vehiculo'] = QPushButton("Buscar vehiculo")
         self.w2['b_ob_tipovehi'] = QPushButton("Obtener tipo vehiculo")
         self.w2['b_ob_destino'] = QPushButton("Obtener Destino más visitado")
 
-        self.w3['tbl_1'] = QTableWidget()
-        self.w3['tbl_2'] = QTableWidget()
+        self.w3['lbl_us'] = QLabel('Tabla Usuarios')
+        self.w3['tbl_us'] = QTableWidget()
 
+        self.w3['lbl_ub'] = QLabel('Tabla Ubicaciones')
+        self.w3['tbl_ub'] = QTableWidget()
+        
+        self.w3['lbl_ve'] = QLabel('Tabla Vehiculos')
+        self.w3['tbl_ve'] = QTableWidget()
+        
+        self.w3['lbl_de'] = QLabel('Tabla Destinos')
+        self.w3['tbl_de'] = QTableWidget()
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
         self.cajamain.setSpacing(0)
@@ -66,7 +72,6 @@ class VentanaMain (QWidget):
         self.layout_main = QVBoxLayout()
         for key_w, w in self.w1.items():
             self.cajai.addWidget(w)
-
         self.cajaa = QVBoxLayout()
         self.cajaa.setContentsMargins(0, 0, 0, 0)
         self.cajaa.setSpacing(0)
@@ -135,15 +140,46 @@ class VentanaObtenerVehiculo:
     def __init__(self):
 
         super().__init__()
-        self.setWindowTitle("Vehiculo")
-        self.setGeometry(100, 100, 400, 100)
+        self.setWindowTitle("Menu Waze")
+        self.setGeometry(200, 200, 1000, 1000)
         self.w1 = dict()
         self.w2 = dict()
+        self.w3 = dict()
 
-        self.w1['lbl_vehiculo'] = QLabel('ID del Vehiculo:')
+        self.w1['b_bsc_usuario'] = QPushButton("Buscar Usuario")
+        self.w1['b_vr_usuarios'] = QPushButton("Ver Usuarios")
+        self.w1['b_vr_ubicaciones'] = QPushButton("Ver Ubicaciones")
+        self.w1['b_vr_configuracion'] = QPushButton(
+            "Ver Configuraciones de usuarios")
+        self.w1['b_ob_configuracion'] = QPushButton(
+            "Ver configuraciones de un usuario")
 
-        self.w2['inp_vehiculo'] = QSpinBox()
-        self.w2['btn_buscar'] = QPushButton('Buscar')
+        self.w2['b_vr_destino'] = QPushButton("Ver Destinos")
+        self.w2['b_vr_vehiculos'] = QPushButton("Ver Vehiculos")
+        self.w2['b_bsc_vehiculo'] = QPushButton("Buscar vehiculo")
+        self.w2['b_ob_tipovehi'] = QPushButton("Obtener tipo vehiculo")
+        self.w2['b_ob_destino'] = QPushButton("Obtener Destino más visitado")
+
+        self.w3['lbl_us'] = QLabel('Tabla Usuarios')
+        self.w3['tbl_us'] = QTableWidget()
+
+        self.w3['lbl_ub'] = QLabel('Tabla Ubicaciones')
+        self.w3['tbl_ub'] = QTableWidget()
+        self.w3['tbl_ub'].setColumnCount(4)
+        self.w3['tbl_ub'].setHorizontalHeaderLabels(
+            ['id', 'nombre', 'latitud', 'longitud'])
+
+        self.w3['lbl_ve'] = QLabel('Tabla Vehiculos')
+        self.w3['tbl_ve'] = QTableWidget()
+        self.w3['tbl_ve'].setColumnCount(5)
+        self.w3['tbl_ve'].setHorizontalHeaderLabels(
+            ['id', 'tipo_vehiculo', 'tipo_combustible', 'matricula', 'id_usuario'])
+
+        self.w3['lbl_de'] = QLabel('Tabla Destinos')
+        self.w3['tbl_de'] = QTableWidget()
+        self.w3['tbl_de'].setColumnCount(3)
+        self.w3['tbl_de'].setHorizontalHeaderLabels(
+            ['id', 'usuario', 'lugar'])
 
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
@@ -164,6 +200,16 @@ class VentanaObtenerVehiculo:
         self.cajai.setSpacing(0)
         self.cajai.setAlignment(Qt.Qt.AlignLeft)
 
+
+        self.layout_main = QVBoxLayout()
+        for key_w, w in self.w1.items():
+            self.cajai.addWidget(w)
+
+        self.cajaa = QVBoxLayout()
+        self.cajaa.setContentsMargins(0, 0, 0, 0)
+        self.cajaa.setSpacing(0)
+        self.cajaa.setAlignment(Qt.Qt.AlignBottom)
+
         self.layout_main = QVBoxLayout()
         for key_w, w in self.w1.items():
             self.cajai.addWidget(w)
@@ -171,6 +217,7 @@ class VentanaObtenerVehiculo:
         self.cajamain.addLayout(self.cajai)
         self.cajamain.addLayout(self.cajad)
         self.layout_main.addLayout(self.cajamain)
+        self.layout_main.addLayout(self.cajaa)
         self.setLayout(self.layout_main)
         self.w2['btn_buscar'].clicked.connect(self.accept)
 
@@ -181,7 +228,7 @@ class VentanaObtenerTipoVehiculo:
     def __init__(self):
 
         super().__init__()
-        self.setWindowTitle("Tipo de Vehiculos")
+        self.setWindowTitle("Tipo de combustibles")
         self.setGeometry(100, 100, 400, 100)
         self.w1 = dict()
         self.w2 = dict()
@@ -191,6 +238,8 @@ class VentanaObtenerTipoVehiculo:
         self.w2['radio_gasolina'] = QRadioButton("Gasolina", self)
         self.w2['radio_energia'] = QRadioButton("Energia", self)
         self.w2['radio_gas'] = QRadioButton("Gas", self)
+        self.w2['radio_acpm'] = QRadioButton("ACPM", self)
+
 
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
@@ -214,7 +263,6 @@ class VentanaObtenerTipoVehiculo:
         self.layout_main = QVBoxLayout()
         for key_w, w in self.w1.items():
             self.cajai.addWidget(w)
-
         self.cajamain.addLayout(self.cajai)
         self.cajamain.addLayout(self.cajad)
         self.layout_main.addLayout(self.cajamain)
