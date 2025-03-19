@@ -2,12 +2,13 @@ import sqlite3
 from modelo.VO import ConfiguracionVO
 from db.conectar import crear_conexion
 
+
 class ConfiguracionDAO:
 
     def __init__(self):
         self.conexion = crear_conexion()
-    
-    def crear(self, config_vo):
+
+    def crear_configuracion(self, config_vo):
         """Crea un nuevo registro de configuración"""
         cursor = self.conexion.cursor()
         try:
@@ -17,7 +18,7 @@ class ConfiguracionDAO:
                     FK_VEHICULO, COLPASS, NAVEGACION_CHECK
                 ) VALUES (?, ?, ?, ?, ?, ?)
             """, (
-                config_vo.fk_usuario, config_vo.fk_destino, 
+                config_vo.fk_usuario, config_vo.fk_destino,
                 config_vo.fk_visualizacion, config_vo.fk_vehiculo,
                 config_vo.colpass, config_vo.navegacion_check
             ))
@@ -27,8 +28,8 @@ class ConfiguracionDAO:
         except Exception as e:
             self.conexion.rollback()
             raise e
-    
-    def obtener_por_id(self, id_confi):
+
+    def obtener_por_id_configuracion(self, id_confi):
         """Obtiene una configuración por su ID"""
         cursor = self.conexion.cursor()
         cursor.execute("""
@@ -36,7 +37,7 @@ class ConfiguracionDAO:
                    FK_VEHICULO, COLPASS, NAVEGACION_CHECK
             FROM CONFIGURACION WHERE ID_CONFI = ?
         """, (id_confi,))
-        
+
         row = cursor.fetchone()
         if row:
             return ConfiguracionVO(
@@ -49,8 +50,8 @@ class ConfiguracionDAO:
                 navegacion_check=row[6]
             )
         return None
-    
-    def actualizar(self, config_vo):
+
+    def actualizar_configuracion(self, config_vo):
         """Actualiza una configuración existente"""
         cursor = self.conexion.cursor()
         try:
@@ -70,19 +71,20 @@ class ConfiguracionDAO:
         except Exception as e:
             self.conexion.rollback()
             raise e
-    
-    def eliminar(self, id_confi):
+
+    def eliminar_configuracion(self, id_confi):
         """Elimina una configuración por su ID"""
         cursor = self.conexion.cursor()
         try:
-            cursor.execute("DELETE FROM CONFIGURACION WHERE ID_CONFI = ?", (id_confi,))
+            cursor.execute(
+                "DELETE FROM CONFIGURACION WHERE ID_CONFI = ?", (id_confi,))
             self.conexion.commit()
             return cursor.rowcount > 0
         except Exception as e:
             self.conexion.rollback()
             raise e
-    
-    def obtener_todos(self):
+
+    def leer_configuracion(self):
         """Obtiene todas las configuraciones"""
         cursor = self.conexion.cursor()
         cursor.execute("""
@@ -90,7 +92,7 @@ class ConfiguracionDAO:
                    FK_VEHICULO, COLPASS, NAVEGACION_CHECK
             FROM CONFIGURACION
         """)
-        
+
         configuraciones = []
         for row in cursor.fetchall():
             configuraciones.append(ConfiguracionVO(
