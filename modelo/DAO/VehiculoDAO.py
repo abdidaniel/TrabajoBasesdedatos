@@ -2,11 +2,12 @@ import sqlite3
 from modelo.VO import VehiculoVO
 from db.conectar import crear_conexion
 
+
 class VehiculoDAO:
     def __init__(self):
         self.conexion = crear_conexion()
-    
-    def crear(self, vehiculo_vo):
+
+    def crear_vehiculo(self, vehiculo_vo):
         """Crea un nuevo registro de vehículo"""
         cursor = self.conexion.cursor()
         try:
@@ -24,15 +25,15 @@ class VehiculoDAO:
         except Exception as e:
             self.conexion.rollback()
             raise e
-    
-    def obtener_por_id(self, id_vehiculo):
+
+    def obtener_por_id_vehiculo(self, id_vehiculo):
         """Obtiene un vehículo por su ID"""
         cursor = self.conexion.cursor()
         cursor.execute("""
             SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
             FROM VEHICULO WHERE ID_vehiculo = ?
         """, (id_vehiculo,))
-        
+
         row = cursor.fetchone()
         if row:
             return VehiculoVO(
@@ -43,8 +44,8 @@ class VehiculoDAO:
                 fk_usuario=row[4]
             )
         return None
-    
-    def actualizar(self, vehiculo_vo):
+
+    def actualizar_vehiculo(self, vehiculo_vo):
         """Actualiza un vehículo existente"""
         cursor = self.conexion.cursor()
         try:
@@ -62,26 +63,27 @@ class VehiculoDAO:
         except Exception as e:
             self.conexion.rollback()
             raise e
-    
-    def eliminar(self, id_vehiculo):
+
+    def eliminar_vehiculo(self, id_vehiculo):
         """Elimina un vehículo por su ID"""
         cursor = self.conexion.cursor()
         try:
-            cursor.execute("DELETE FROM VEHICULO WHERE ID_vehiculo = ?", (id_vehiculo,))
+            cursor.execute(
+                "DELETE FROM VEHICULO WHERE ID_vehiculo = ?", (id_vehiculo,))
             self.conexion.commit()
             return cursor.rowcount > 0
         except Exception as e:
             self.conexion.rollback()
             raise e
-    
-    def obtener_todos(self):
+
+    def leer_vehiculos(self):
         """Obtiene todos los vehículos"""
         cursor = self.conexion.cursor()
         cursor.execute("""
             SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
             FROM VEHICULO
         """)
-        
+
         vehiculos = []
         for row in cursor.fetchall():
             vehiculos.append(VehiculoVO(
@@ -92,7 +94,7 @@ class VehiculoDAO:
                 fk_usuario=row[4]
             ))
         return vehiculos
-    
+
     def obtener_por_usuario(self, id_usuario):
         """Obtiene todos los vehículos de un usuario específico"""
         cursor = self.conexion.cursor()
@@ -101,7 +103,7 @@ class VehiculoDAO:
             FROM VEHICULO
             WHERE FK_USUARIO = ?
         """, (id_usuario,))
-        
+
         vehiculos = []
         for row in cursor.fetchall():
             vehiculos.append(VehiculoVO(
