@@ -121,8 +121,8 @@ class ControladorGUI:
                     handler_funcion_actualizar_usuario)
             except:
                 ("Ya conectado")
-            self.ventana_actualizar.show()
             self.ventana_usuario.show()
+            self.ventana_actualizar.show()
 
         def handler_funcion_eliminar_usuario():
 
@@ -288,7 +288,7 @@ class ControladorGUI:
                 colpass=self.ventana_configuracion.w2['inp_colpass'].value(),
                 alertas_trafico=self.ventana_configuracion.w2['inp_alertas'].value(
                 ),
-                idioma=self.ventana_configuracion.w2['inp_alertas'].text(),
+                idioma=self.ventana_configuracion.w2['inp_idioma'].text(),
                 navegacion=self.ventana_configuracion.w2['inp_navegacion'].text()))
 
         def handler_ventana_insertar_configuracion():
@@ -341,23 +341,17 @@ class ControladorGUI:
                 0, 8, QTableWidgetItem(usuario.navegacion))
 
         def handler_ventana_obtener_configuracion():
-            try:
-                self.ventana_buscar.w2['btn_buscar'].clicked.disconnect(
-                    handler_funcion_obtener_vehiculo)
-            except:
-                print("ya desconectado")
 
             try:
-                self.ventana_buscar.w2['btn_buscar'].clicked.disconnect(
-                    handler_funcion_obtener_usuario)
+                self.ventana_buscar.w2['btn_buscar'].clicked.disconnect()
             except:
-                print("ya desconetada")
+                print("no habia comunicacion")
 
             try:
                 self.ventana_buscar.w2['btn_buscar'].clicked.connect(
                     handler_funcion_obtener_configuracion)
             except:
-                ("Ya conectado")
+                print("ya conectado")
             self.ventana_buscar.show()
 
         def handler_funcion_actualizar_configuracion():
@@ -370,7 +364,7 @@ class ControladorGUI:
                 ),
                 id_visualizacion=self.ventana_configuracion.w2['inp_id_visualizacion'],
                 colpass=self.ventana_configuracion.w2['inp_colpass'].value(),
-                alertas_trafico=self.ventana_configuracion['inp_alertas'].value(
+                alertas_trafico=self.ventana_configuracion.w2['inp_alertas'].value(
                 ),
                 navegacion=self.ventana_configuracion['inp_navegacion'].text(),
                 id_confi=self.ventana_actualizar.w2['spin_id'].value()))
@@ -399,23 +393,17 @@ class ControladorGUI:
         def handler_funcion_eliminar_configuracion():
             self.CON_DAO.eliminar_configuracion(
                 self.ventana_eliminar.w2['spin_id'].value())
+            self.ventana_eliminar.close()
 
         def handler_ventana_eliminar_configuracion():
             try:
-                self.ventana_eliminar.w2['btn_buscar'].clicked.disconnect(
-                    handler_funcion_eliminar_usuario())
+                self.ventana_eliminar.w2['btn_buscar'].clicked.disconnect()
             except:
                 print("ya desconectado")
 
             try:
-                self.ventana_eliminar.w2['btn_buscar'].clicked.disconnect(
-                    handler_funcion_eliminar_vehiculo())
-            except:
-                print("ya desconetada")
-
-            try:
                 self.ventana_eliminar.w2['btn_buscar'].clicked.connect(
-                    handler_funcion_eliminar_configuracion())
+                    handler_funcion_eliminar_configuracion)
             except:
                 ("Ya conectado")
             self.ventana_eliminar.show()
