@@ -124,6 +124,49 @@ class VentanaMain (QWidget):
 # Removi todo porque no era con iba con los requerimientos del profesor
 
 
+class VentanaActualizar(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Actualizar")
+        self.setGeometry(100, 100, 400, 100)
+        self.w1 = dict()
+        self.w2 = dict()
+
+        self.w1['lbl_usuario'] = QLabel('ID:')
+
+        self.w2['spin_id'] = QSpinBox()
+        self.w2['btn_buscar'] = QPushButton('Actualizar')
+
+        self.cajamain = QHBoxLayout()
+        self.cajamain.setContentsMargins(0, 0, 0, 0)
+        self.cajamain.setSpacing(0)
+        self.cajamain.setAlignment(Qt.Qt.AlignTop)
+
+        self.cajad = QVBoxLayout()
+        self.cajad.setContentsMargins(0, 0, 0, 0)
+        self.cajad.setSpacing(0)
+        self.cajad.setAlignment(Qt.Qt.AlignRight)
+
+        self.layout_main = QVBoxLayout()
+        for key_w, w in self.w2.items():
+            self.cajad.addWidget(w)
+
+        self.cajai = QVBoxLayout()
+        self.cajai.setContentsMargins(0, 0, 0, 0)
+        self.cajai.setSpacing(0)
+        self.cajai.setAlignment(Qt.Qt.AlignLeft)
+
+        self.layout_main = QVBoxLayout()
+        for key_w, w in self.w1.items():
+            self.cajai.addWidget(w)
+
+        self.cajamain.addLayout(self.cajai)
+        self.cajamain.addLayout(self.cajad)
+        self.layout_main.addLayout(self.cajamain)
+        self.setLayout(self.layout_main)
+        self.w2['btn_buscar'].clicked.connect(self.accept)
+
+
 class VentanaBuscar(QDialog):
     def __init__(self):
         super().__init__()
@@ -166,6 +209,50 @@ class VentanaBuscar(QDialog):
         self.setLayout(self.layout_main)
         self.w2['btn_buscar'].clicked.connect(self.accept)
 
+
+class VentanaEliminar(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Buscar")
+        self.setGeometry(100, 100, 400, 100)
+        self.w1 = dict()
+        self.w2 = dict()
+
+        self.w1['lbl_usuario'] = QLabel('ID:')
+
+        self.w2['spin_id'] = QSpinBox()
+        self.w2['btn_buscar'] = QPushButton('Eliminar')
+
+        self.cajamain = QHBoxLayout()
+        self.cajamain.setContentsMargins(0, 0, 0, 0)
+        self.cajamain.setSpacing(0)
+        self.cajamain.setAlignment(Qt.Qt.AlignTop)
+
+        self.cajad = QVBoxLayout()
+        self.cajad.setContentsMargins(0, 0, 0, 0)
+        self.cajad.setSpacing(0)
+        self.cajad.setAlignment(Qt.Qt.AlignRight)
+
+        self.layout_main = QVBoxLayout()
+        for key_w, w in self.w2.items():
+            self.cajad.addWidget(w)
+
+        self.cajai = QVBoxLayout()
+        self.cajai.setContentsMargins(0, 0, 0, 0)
+        self.cajai.setSpacing(0)
+        self.cajai.setAlignment(Qt.Qt.AlignLeft)
+
+        self.layout_main = QVBoxLayout()
+        for key_w, w in self.w1.items():
+            self.cajai.addWidget(w)
+
+        self.cajamain.addLayout(self.cajai)
+        self.cajamain.addLayout(self.cajad)
+        self.layout_main.addLayout(self.cajamain)
+        self.setLayout(self.layout_main)
+        self.w2['btn_buscar'].clicked.connect(self.accept)
+
+
 # Removi el crear reporte porque pues, no va con los administradores, transferido a obtener vehiculo
 # Creacion de ventanas de addicion
 
@@ -183,7 +270,7 @@ class VentanaUsuario(QDialog):
         self.w1['lbl_nombre'] = QLabel('Nombre')
         self.w1['lbl_apellido'] = QLabel('Apellido ')
         self.w1['lbl_correo'] = QLabel('Correo')
-        self.w2['lbl_sexo'] = QLabel('Sexo')
+        self.w1['lbl_sexo'] = QLabel('Sexo')
         self.w1['btn_buscar'] = QPushButton('Buscar')
         self.w2['inp_nombre'] = QLineEdit()
         self.w2['inp_apellido'] = QLineEdit()
@@ -237,6 +324,7 @@ class VentanaConfiguracion(QDialog):
         self.w1['lbl_alertas'] = QLabel('Alertas Tráfico')
         self.w1['lbl_idioma'] = QLabel('Idioma')
         self.w1['lbl_navegacion'] = QLabel('Navegación')
+        self.w1['btn_guardar'] = QPushButton('Guardar')
 
         self.w2['inp_id_usuario'] = QSpinBox()
         self.w2['inp_id_destino'] = QSpinBox()
@@ -250,7 +338,6 @@ class VentanaConfiguracion(QDialog):
         self.w2['inp_alertas'].setMinimum(0)
         self.w2['inp_idioma'] = QLineEdit()
         self.w2['inp_navegacion'] = QLineEdit()
-        self.w1['btn_guardar'] = QPushButton('Guardar')
 
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
@@ -294,11 +381,11 @@ class VentanaVehiculo(QDialog):
         self.w1['lbl_tipo_combustible'] = QLabel('Tipo de combustible')
         self.w1['lbl_matricula'] = QLabel('Matricula')
         self.w1['lbl_id_usuario'] = QLabel('ID_usuario')
+        self.w1['btn_guardar'] = QPushButton('Guardar')
         self.w2['inp_tipo_vehiculo'] = QLineEdit()
         self.w2['inp_tipo_combustible'] = QLineEdit()
         self.w2['inp_matricula'] = QLineEdit()
         self.w2['inp_id_usuario'] = QSpinBox()
-        self.w1['btn_guardar'] = QPushButton('Guardar')
 
         self.cajamain = QHBoxLayout()
         self.cajamain.setContentsMargins(0, 0, 0, 0)
@@ -327,4 +414,3 @@ class VentanaVehiculo(QDialog):
         self.layout_main.addLayout(self.cajamain)
         self.setLayout(self.layout_main)
         self.w1['btn_guardar'].clicked.connect(self.accept)
-
