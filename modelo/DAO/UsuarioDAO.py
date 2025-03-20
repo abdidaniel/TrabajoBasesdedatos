@@ -25,19 +25,19 @@ class UsuarioDAO:
         finally:
             cursor.close()
 
-    def eliminar_usuario(self, id_usuario: int) -> bool:
+    def eliminar_usuario(self, ID_usuario: int) -> bool:
         """Elimina un usuario de la base de datos por su ID."""
         sql = "DELETE FROM Usuario WHERE ID_usuario = ?"
         try:
             cursor = self.conexion.cursor()
-            cursor.execute(sql, (id_usuario,))
+            cursor.execute(sql, (ID_usuario,))
             self.conexion.commit()
 
             if cursor.rowcount > 0:
-                print(f"Usuario con ID {id_usuario} eliminado correctamente.")
+                print(f"Usuario con ID {ID_usuario} eliminado correctamente.")
                 return True
             else:
-                print(f"No se encontró un usuario con ID {id_usuario}.")
+                print(f"No se encontró un usuario con ID {ID_usuario}.")
                 return False
         except sqlite3.Error as e:
             print(f"Error al eliminar usuario: {e}")
@@ -103,7 +103,7 @@ class UsuarioDAO:
         usuarios = []
         for row in cursor.fetchall():
             usuarios.append(UsuarioVO(
-                id_usuario=row[0],
+                ID_usuario=row[0],
                 nombre=row[1],
                 apellido=row[2],
                 correo=row[3],
