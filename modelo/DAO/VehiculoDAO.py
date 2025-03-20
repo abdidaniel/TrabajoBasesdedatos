@@ -1,5 +1,4 @@
-import sqlite3
-from modelo.VO import VehiculoVO
+from modelo.VO.VehiculoVO import VehiculoVO
 from db.conectar import crear_conexion
 
 
@@ -13,7 +12,7 @@ class VehiculoDAO:
         try:
             cursor.execute("""
                 INSERT INTO VEHICULO (
-                    tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
+                    tipo_vehiculo, tipo_combustible, matricula, ID_usuario
                 ) VALUES (?, ?, ?, ?)
             """, (
                 vehiculo_vo.tipo_vehiculo, vehiculo_vo.tipo_combustible,
@@ -30,7 +29,7 @@ class VehiculoDAO:
         """Obtiene un vehículo por su ID"""
         cursor = self.conexion.cursor()
         cursor.execute("""
-            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
+            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, ID_usuario
             FROM VEHICULO WHERE ID_vehiculo = ?
         """, (id_vehiculo,))
 
@@ -51,7 +50,7 @@ class VehiculoDAO:
         try:
             cursor.execute("""
                 UPDATE VEHICULO
-                SET tipo_vehiculo = ?, tipo_combustible = ?, matricula = ?, FK_USUARIO = ?
+                SET tipo_vehiculo = ?, tipo_combustible = ?, matricula = ?, ID_usuario = ?
                 WHERE ID_vehiculo = ?
             """, (
                 vehiculo_vo.tipo_vehiculo, vehiculo_vo.tipo_combustible,
@@ -80,7 +79,7 @@ class VehiculoDAO:
         """Obtiene todos los vehículos"""
         cursor = self.conexion.cursor()
         cursor.execute("""
-            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
+            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, ID_usuario
             FROM VEHICULO
         """)
 
@@ -101,7 +100,7 @@ class VehiculoDAO:
         cursor.execute("""
             SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
             FROM VEHICULO
-            WHERE FK_USUARIO = ?
+            WHERE ID_usuario = ?
         """, (id_usuario,))
 
         vehiculos = []
