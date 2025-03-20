@@ -78,7 +78,6 @@ class ControladorGUI:
                 0, 3, QTableWidgetItem(usuario.correo))
             self.ventana_main.w4['tbl_us'].setItem(
                 0, 4, QTableWidgetItem(usuario.sexo))
-            self.ventana_buscar.show()
 
         def handler_ventana_obtener_usuario():
             try:
@@ -196,7 +195,6 @@ class ControladorGUI:
                 0, 3, QTableWidgetItem(usuario.matricula))
             self.ventana_main.w4['tbl_ve'].setItem(
                 0, 4, QTableWidgetItem(str(usuario.fk_usuario)))
-            self.ventana_buscar.show()
 
         def handler_ventana_obtener_vehiculo():
             try:
@@ -343,7 +341,6 @@ class ControladorGUI:
                 0, 7, QTableWidgetItem(usuario.idioma))
             self.ventana_main.w4['tbl_con'].setItem(
                 0, 8, QTableWidgetItem(usuario.navegacion))
-            self.ventana_buscar.show()
 
         def handler_ventana_obtener_configuracion():
 
