@@ -1,11 +1,13 @@
 import sqlite3
 from modelo.VO.UsuarioVO import UsuarioVO
 from db.conectar import crear_conexion
+from modelo.DAO.VisualizacionDAO import VisualizacionDAO
 
 class UsuarioDAO:
 
     def __init__(self):
         self.conexion = crear_conexion()
+        self.visualizacion_dao = VisualizacionDAO() 
     #Insertar usuario
     def insertar_usuario(self, usuario: UsuarioVO) -> bool:
         """Inserta un nuevo usuario en la base de datos."""
@@ -15,6 +17,9 @@ class UsuarioDAO:
             cursor = self.conexion.cursor()
             cursor.execute(sql, (usuario.nombre, usuario.apellido, usuario.correo, usuario.sexo))
             self.conexion.commit()
+            ID_usuario = cursor.lastrowid  # Obtener el ID del usuario recién insertado
+            self.visualizacion_dao.crear_visualizacion_por_defecto(ID_usuario)  # Crear configuración visual
+
             return True
         except sqlite3.Error as e:
             print(f"Error al insertar usuario: {e}")
