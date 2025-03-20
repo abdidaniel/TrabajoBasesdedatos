@@ -1,61 +1,72 @@
-from modelo.VO.VehiculoVO import VehiculoVO
+from modelo.VO.ConfiguracionVO import ConfiguracionVO
 from db.conectar import crear_conexion
 
 
-class VehiculoDAO:
+class ConfiguracionDAO:
     def __init__(self):
         self.conexion = crear_conexion()
 
-    def crear_vehiculo(self, vehiculo_vo):
-        """Crea un nuevo registro de vehículo"""
+    def crear_configuracion(self, config_vo):
+        """Crea un nuevo registro de configuración"""
         cursor = self.conexion.cursor()
         try:
             cursor.execute("""
-                INSERT INTO VEHICULO (
-                    tipo_vehiculo, tipo_combustible, matricula, ID_usuario
-                ) VALUES (?, ?, ?, ?)
+                INSERT INTO Configuracion (
+                    ID_usuario, ID_destino, ID_visualizacion, 
+                    ID_vehiculo, COLPASS, alertas_trafico, idioma, navegacion
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                vehiculo_vo.tipo_vehiculo, vehiculo_vo.tipo_combustible,
-                vehiculo_vo.matricula, vehiculo_vo.fk_usuario
+                config_vo.id_usuario, config_vo.id_destino,
+                config_vo.id_visualizacion, config_vo.id_vehiculo,
+                int(config_vo.colpass), int(config_vo.alertas_trafico),
+                config_vo.idioma, config_vo.navegacion
             ))
             self.conexion.commit()
-            vehiculo_vo.id_vehiculo = cursor.lastrowid
-            return vehiculo_vo
+            config_vo.id_confi = cursor.lastrowid
+            return config_vo
         except Exception as e:
             self.conexion.rollback()
             raise e
 
-    def obtener_por_id_vehiculo(self, id_vehiculo):
-        """Obtiene un vehículo por su ID"""
+    def obtener_por_id_configuracion(self, id_confi):
+        """Obtiene una configuración por su ID"""
         cursor = self.conexion.cursor()
         cursor.execute("""
-            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, ID_usuario
-            FROM VEHICULO WHERE ID_vehiculo = ?
-        """, (id_vehiculo,))
+            SELECT ID_confi, ID_usuario, ID_destino, ID_visualizacion, 
+                   ID_vehiculo, COLPASS, alertas_trafico, idioma, navegacion
+            FROM Configuracion WHERE ID_confi = ?
+        """, (id_confi,))
 
         row = cursor.fetchone()
         if row:
-            return VehiculoVO(
-                id_vehiculo=row[0],
-                tipo_vehiculo=row[1],
-                tipo_combustible=row[2],
-                matricula=row[3],
-                fk_usuario=row[4]
+            return ConfiguracionVO(
+                id_confi=row[0],
+                id_usuario=row[1],
+                id_destino=row[2],
+                id_visualizacion=row[3],
+                id_vehiculo=row[4],
+                colpass=bool(row[5]),
+                alertas_trafico=bool(row[6]),
+                idioma=row[7],
+                navegacion=row[8]
             )
         return None
 
-    def actualizar_vehiculo(self, vehiculo_vo):
-        """Actualiza un vehículo existente"""
+    def actualizar_configuracion(self, config_vo):
+        """Actualiza una configuración existente"""
         cursor = self.conexion.cursor()
         try:
             cursor.execute("""
-                UPDATE VEHICULO
-                SET tipo_vehiculo = ?, tipo_combustible = ?, matricula = ?, ID_usuario = ?
-                WHERE ID_vehiculo = ?
+                UPDATE Configuracion
+                SET ID_usuario = ?, ID_destino = ?, ID_visualizacion = ?,
+                    ID_vehiculo = ?, COLPASS = ?, alertas_trafico = ?, idioma = ?, navegacion = ?
+                WHERE ID_confi = ?
             """, (
-                vehiculo_vo.tipo_vehiculo, vehiculo_vo.tipo_combustible,
-                vehiculo_vo.matricula, vehiculo_vo.fk_usuario,
-                vehiculo_vo.id_vehiculo
+                config_vo.id_usuario, config_vo.id_destino,
+                config_vo.id_visualizacion, config_vo.id_vehiculo,
+                int(config_vo.colpass), int(config_vo.alertas_trafico),
+                config_vo.idioma, config_vo.navegacion,
+                config_vo.id_confi
             ))
             self.conexion.commit()
             return cursor.rowcount > 0
@@ -63,53 +74,38 @@ class VehiculoDAO:
             self.conexion.rollback()
             raise e
 
-    def eliminar_vehiculo(self, id_vehiculo):
-        """Elimina un vehículo por su ID"""
+    def eliminar_configuracion(self, id_confi):
+        """Elimina una configuración por su ID"""
         cursor = self.conexion.cursor()
         try:
             cursor.execute(
-                "DELETE FROM VEHICULO WHERE ID_vehiculo = ?", (id_vehiculo,))
+                "DELETE FROM Configuracion WHERE ID_confi = ?", (id_confi,))
             self.conexion.commit()
             return cursor.rowcount > 0
         except Exception as e:
             self.conexion.rollback()
             raise e
 
-    def leer_vehiculos(self):
-        """Obtiene todos los vehículos"""
+    def leer_configuracion(self):
+        """Obtiene todas las configuraciones"""
         cursor = self.conexion.cursor()
         cursor.execute("""
-            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, ID_usuario
-            FROM VEHICULO
+            SELECT ID_confi, ID_usuario, ID_destino, ID_visualizacion, 
+                   ID_vehiculo, COLPASS, alertas_trafico, idioma, navegacion
+            FROM Configuracion
         """)
 
-        vehiculos = []
+        configuraciones = []
         for row in cursor.fetchall():
-            vehiculos.append(VehiculoVO(
-                id_vehiculo=row[0],
-                tipo_vehiculo=row[1],
-                tipo_combustible=row[2],
-                matricula=row[3],
-                fk_usuario=row[4]
+            configuraciones.append(ConfiguracionVO(
+                id_confi=row[0],
+                id_usuario=row[1],
+                id_destino=row[2],
+                id_visualizacion=row[3],
+                id_vehiculo=row[4],
+                colpass=bool(row[5]),
+                alertas_trafico=bool(row[6]),
+                idioma=row[7],
+                navegacion=row[8]
             ))
-        return vehiculos
-
-    def obtener_por_usuario(self, id_usuario):
-        """Obtiene todos los vehículos de un usuario específico"""
-        cursor = self.conexion.cursor()
-        cursor.execute("""
-            SELECT ID_vehiculo, tipo_vehiculo, tipo_combustible, matricula, FK_USUARIO
-            FROM VEHICULO
-            WHERE ID_usuario = ?
-        """, (id_usuario,))
-
-        vehiculos = []
-        for row in cursor.fetchall():
-            vehiculos.append(VehiculoVO(
-                id_vehiculo=row[0],
-                tipo_vehiculo=row[1],
-                tipo_combustible=row[2],
-                matricula=row[3],
-                fk_usuario=row[4]
-            ))
-        return vehiculos
+        return configuraciones
