@@ -128,6 +128,7 @@ class ControladorGUI:
 
             self.USU_DAO.eliminar_usuario(
                 self.ventana_eliminar.w2['spin_id'].value())
+            self.ventana_eliminar.close()
 
         def handler_ventana_eliminar_usuario():
             try:
@@ -251,6 +252,7 @@ class ControladorGUI:
         def handler_funcion_eliminar_vehiculo():
             self.USU_DAO.eliminar_usuario(
                 self.ventana_eliminar.w2['spin_id'].value())
+            self.ventana_eliminar.close()
 
         def handler_ventana_eliminar_vehiculo():
             try:
