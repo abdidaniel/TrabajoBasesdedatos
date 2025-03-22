@@ -153,12 +153,12 @@ class ControladorGUI:
         # |  | | | | | | |  | | |  | | |
 
         def handler_funcion_insertar_vehiculo():
-            self.VEH_DAO.crear_vehiculo(VehiculoDAO.VehiculoVO(tipo_vehiculo=self.ventana_usuario.w2['inp_tipo_vehiculo'].text(),
-                                                               tipo_combustible=self.ventana_usuario.w2[
+            self.VEH_DAO.crear_vehiculo(VehiculoDAO.VehiculoVO(tipo_vehiculo=self.ventana_vehiculo.w2['inp_tipo_vehiculo'].text(),
+                                                               tipo_combustible=self.ventana_vehiculo.w2[
                 'inp_tipo_combustible'].text(),
-                matricula=self.ventana_usuario.w2['inp_matricula'].text(
+                matricula=self.ventana_vehiculo.w2['inp_matricula'].text(
             ),
-                id_vehiculo=self.ventana_usuario.w2['inp_id_usuario'].value(
+                id_vehiculo=self.ventana_vehiculo.w2['inp_id_usuario'].value(
             )
             ))
 
